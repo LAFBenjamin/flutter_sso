@@ -6,7 +6,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_sso/keyckloakAuthWrapper/keycloak_auth_wrapper.dart';
 import 'package:flutter_sso/simple_app_1.dart';
 import 'package:flutter_sso/simple_app_inapp_2.dart';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:http/http.dart' as http;
 
 import 'simple_app_2.dart';
@@ -21,8 +20,8 @@ class _LoginPageState extends State<LoginPage> {
 
   final String _clientId = 'mobile';
   final String _redirectUrl = 'myapp://callback';
-  final String _issuer = 'http://localhost:8080//realms/emeria';
-  final String _discoveryUrl = 'http://localhost:8080/realms/emeria/.well-known/openid-configuration';
+  final String _issuer = 'http://localhost:8080//realms/sso';
+  final String _discoveryUrl = 'http://localhost:8080/realms/sso/.well-known/openid-configuration';
   final List<String> _scopes = ['openid', 'profile', 'email'];
 
   

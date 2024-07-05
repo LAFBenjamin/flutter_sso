@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 
@@ -26,32 +25,15 @@ class SimpleApp2 extends StatefulWidget {
 
 
 class SimpleApp2State extends State<SimpleApp2> {
-  final cookieManager = WebviewCookieManager();
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
   late WebViewController _controller;
 
   @override
   void initState() {
     super.initState();
-    _setCookies();
   }
 
-   Future<void> _setCookies() async {
-    // Récupérer les cookies de la session
-    final sessionCookie = await _secureStorage.read(key: 'session_cookie');
-    final accestoken = await _secureStorage.read(key: 'access_token');
-    final cookies = await cookieManager.getCookies('http://localhost:8080');
-    print(cookies);
-    if (sessionCookie != null) {
-      /*await cookieManager.setCookies([
-        Cookie('KEYCLOAK_IDENTITY_LEGACY', sessionCookie)
-          ..domain = 'localhost'
-          ..path = '/realms/emeria/'
-          ..httpOnly = false
-          ..secure = false
-      ]);*/
-    }
-}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,13 +44,6 @@ class SimpleApp2State extends State<SimpleApp2> {
       body: WebView(
         initialUrl: 'http://localhost:8000',
         javascriptMode: JavascriptMode.unrestricted,
-         onPageFinished: (url) async {
-            final cookies = await cookieManager.getCookies('http://localhost:8000');
-            for (var cookie in cookies) {
-              print(cookie);
-            }
-          
-         },
         onWebViewCreated: (WebViewController webViewController){
           _controller = webViewController;
         }
