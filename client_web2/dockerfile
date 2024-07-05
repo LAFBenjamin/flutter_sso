@@ -1,0 +1,17 @@
+# Utiliser une image de base légère pour servir les fichiers statiques
+FROM nginx:alpine
+
+# Supprimer la configuration par défaut de Nginx
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copier notre configuration personnalisée de Nginx dans le conteneur
+COPY nginx.conf /etc/nginx/conf.d
+
+# Copier les fichiers de l'application web dans le répertoire de Nginx
+COPY index.html /usr/share/nginx/html
+
+# Exposer le port 80 pour accéder à l'application web
+EXPOSE 80
+
+# Démarrer Nginx lorsque le conteneur démarre
+CMD ["nginx", "-g", "daemon off;"]
