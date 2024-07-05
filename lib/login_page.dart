@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_sso/keyckloakAuthWrapper/keycloak_auth_wrapper.dart';
-import 'package:flutter_sso/my_home_page.dart';
+import 'package:flutter_sso/simple_app_1.dart';
 import 'package:flutter_sso/simple_app_inapp_2.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:http/http.dart' as http;
@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             ElevatedButton(
               onPressed: () async {
-                await loginWebView(context);
+                await _loginWebView(context);
               },
               child: Text('Login Keycloak webview'),
             ),
@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyHomePage(title: 'Simple app 1')),
+                  MaterialPageRoute(builder: (context) => SimpleApp1(title: 'Simple app 1')),
                 );
               },
               child: Text('Open WebView'),
@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<void> loginWebView(BuildContext context) async {
+  Future<void> _loginWebView(BuildContext context) async {
     final KeycloakAuth keycloakAuth = KeycloakAuth(
       clientId: _clientId,
       redirectUrl: _redirectUrl,
