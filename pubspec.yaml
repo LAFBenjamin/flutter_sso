@@ -33,7 +33,9 @@ dependencies:
   webview_flutter: ^3.0.4
   flutter_appauth: ^2.0.0
   flutter_secure_storage: ^4.2.1
+  webview_cookie_manager: ^2.0.1
   http: ^0.13.3
+  flutter_web_auth: ^0.3.0
   flutter_inappwebview: ^6.0.0
 
   # The following adds the Cupertino Icons font to your application.
