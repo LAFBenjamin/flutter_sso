@@ -22,7 +22,8 @@ class _LoginPageState extends State<LoginPage> {
   final String _redirectUrl = 'myapp://callback';
   final String _issuer = 'http://localhost:8080//realms/sso';
   final String _discoveryUrl = 'http://localhost:8080/realms/sso/.well-known/openid-configuration';
-  final List<String> _scopes = ['openid', 'profile', 'email'];
+  final List<String> _scopes = ['openid','email', 'offline_access', 'profile', 'roles'];
+  final String _provider = 'google';
 
   
 
@@ -92,13 +93,13 @@ class _LoginPageState extends State<LoginPage> {
     );
     final tokenResponse = await keycloakAuth.authenticate(context);
       if (tokenResponse != null) {
-        print('Access Token: ${tokenResponse.accessToken}');
-        print('Refresh Token: ${tokenResponse.refreshToken}');
-
+       
         final idToken = _parseIdToken(tokenResponse.idToken!);
         setState(() {
           _username = idToken['preferred_username'];
         });
+
+        var idpToken = await getTokenIdp(token: tokenResponse.accessToken!, idp: _provider, issuer: _issuer);
       } else {
         print('Authentication failed');
       }
@@ -110,8 +111,7 @@ class _LoginPageState extends State<LoginPage> {
       if (result != null) {
         await _secureStorage.write(key: 'access_token', value: result.accessToken);
         await _secureStorage.write(key: 'refresh_token', value: result.refreshToken);
-        
-        print(result.accessToken);
+
         final idToken = _parseIdToken(result.idToken!);
         setState(() {
           _username = idToken['preferred_username'];
@@ -168,4 +168,26 @@ Map<String, dynamic> _parseIdToken(String idToken) {
 
     return utf8.decode(base64Url.decode(output));
   }
+
+Future<String> getTokenIdp({
+  required String token,
+  required String idp,
+  required String issuer,
+}) async {
+  final url = '$issuer/broker/$idp/token';
+  final response = await http.get(
+    Uri.parse(url),
+    headers: {'Authorization': 'Bearer $token' },
+
+  );
+
+  if (response.statusCode == 200) {
+    final jsonResponse = jsonDecode(response.body);
+    return jsonResponse['access_token'];
+  } else {
+    print('Failed to get token: ${response.reasonPhrase}');
+    return '';
+  }
+}
+
 

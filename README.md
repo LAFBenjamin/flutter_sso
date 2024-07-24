@@ -1,16 +1,44 @@
-# flutter_sso
+# Flutter SSO Project
 
-A new Flutter project.
+This project demonstrates Single Sign-On (SSO) implementation in a Flutter application using Keycloak as the authentication server.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Login with Keycloak using AppAuth
+- Login with Keycloak using WebView
+- Secure token storage
+- Multiple app demonstrations (Simple App 1, Simple App 2)
+- In-app WebView integration
 
-A few resources to get you started if this is your first Flutter project:
+## Setup
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. Clone the repository
+2. Install dependencies: `flutter pub get`
+3. Configure Keycloak server settings in `lib/login_page.dart`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Usage
+
+Run the app using `flutter run`. The main login page offers various authentication options and demo apps.
+
+## Key Components
+
+- `login_page.dart`: Main authentication logic and UI
+- `keycloak_auth_wrapper.dart`: Custom Keycloak authentication wrapper
+- `simple_app_1.dart`, `simple_app_2.dart`: Demo applications
+- `simple_app_inapp_2.dart`: In-app WebView demo
+
+## Dependencies
+
+- flutter_appauth
+- flutter_secure_storage
+- http
+
+## Configuration
+
+Update the following variables in `login_page.dart` with your Keycloak server details:
+
+```dart
+final String _clientId = 'mobile';
+final String _redirectUrl = 'myapp://callback';
+final String _issuer = 'http://localhost:8080//realms/sso';
+final String _discoveryUrl = 'http://localhost:8080/realms/sso/.well-known/openid-configuration';
